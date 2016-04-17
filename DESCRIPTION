@@ -13,11 +13,11 @@ BugReports: https://github.com/gaborcsardi/praise/issues
 Suggests:
     testthat
 Collate:
-    'adjective.R'
-    'adverb.R'
-    'exclamation.R'
-    'verb.R'
+    'english-adjective.R'
+    'english-adverb.R'
+    'english-exclamation.R'
+    'english-rpackage.R'
+    'english-verb.R'
     'smiley.R'
-    'rpackage.R'
     'package.R'
 RoxygenNote: 5.0.1.9000
