@@ -4,12 +4,51 @@
 #' @description Build friendly R packages that
 #' praise their users if they have done something
 #' good, or they just need it to feel better.
-#' 
+#'
 #' @docType package
 #' @aliases praise praise-package
 
 NULL
 
+`%||%` <- function(l, r) if (is.null(l)) r else l
+
+#' Languages spoken by praise
+#'
+#' Currently: \itemize{
+#'   \item \sQuote{eng} English.
+#'   \item \sQuote{hun} Hungarian.
+#' }
+#'
+#' If the language is not detected correctly, set the
+#' the \code{LANGUAGE} environment variable to the three
+#' letter language code.
+#'
+#' @export
+
+praise_languages <- c("eng", "hun")
+
+get_language <- function() {
+  parse_language(Sys.getenv("LANGUAGE")) %||%
+  parse_language(Sys.getenv("LANG")) %||%
+  parse_language(Sys.getlocale()) %||%
+  "eng"
+}
+
+parse_language <- function(x) {
+  if (x %in% praise_languages) {
+    x
+
+  } else if (substr(x, 1, 3) %in% praise_languages) {
+    substr(x, 1, 3)
+
+  } else if (substr(x, 1, 2) %in% substr(praise_languages, 1, 2)) {
+    praise_languages[match(substr(x, 1, 2),
+                           substr(praise_languages, 1, 2))]
+
+  } else {
+    NULL
+  }
+}
 
 #' Parts of speech for praising
 #'
@@ -25,9 +64,9 @@ NULL
 #'   \item{exclamation}{Positive exclamations.}
 #'   \item{rpackage}{Synonyms for the term \sQuote{R package}.}
 #' }
-#' 
+#'
 #' @include english-adjective.R english-adverb.R english-exclamation.R
-#'   english-rpackage.R english-verb.R smiley.R
+#' @include english-rpackage.R english-verb.R smiley.R
 #' @export
 
 praise_parts <- list(
